@@ -1,5 +1,4 @@
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../core/theme/app_theme.dart';
@@ -132,26 +131,19 @@ class UploadScreen extends StatelessWidget {
   Future<void> _pickFile(BuildContext context) async {
     final provider = context.read<DashboardProvider>();
 
+    // withData: true loads bytes on all platforms — no dart:io needed
     final result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['csv', 'xlsx', 'xls'],
-      withData: kIsWeb,         // on web, load bytes into memory
-      withReadStream: !kIsWeb,  // on mobile, stream from disk
+      withData: true,
     );
 
     if (result == null || result.files.isEmpty) return;
 
     final file = result.files.first;
+    if (file.bytes == null) return;
 
-    if (kIsWeb) {
-      // Web: use raw bytes
-      if (file.bytes == null) return;
-      await provider.uploadFileBytes(file.bytes!, file.name);
-    } else {
-      // Mobile / desktop: use file path
-      if (file.path == null) return;
-      await provider.uploadFile(file.path!, file.name);
-    }
+    await provider.uploadFileBytes(file.bytes!, file.name);
 
     if (context.mounted && provider.state == DashboardState.success) {
       Navigator.of(context).push(
