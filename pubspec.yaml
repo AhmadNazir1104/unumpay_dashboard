@@ -1,0 +1,40 @@
+name: unumpay_smart_dashboard
+description: "UnumPay Smart Transaction Analytics Dashboard"
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.11.4
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # HTTP client
+  dio: ^5.7.0
+
+  # File picker (for CSV/Excel upload)
+  file_picker: ^8.1.2
+
+  # Charts
+  fl_chart: ^0.70.2
+
+  # State management
+  provider: ^6.1.2
+
+  # Icons
+  cupertino_icons: ^1.0.8
+
+  # Utilities
+  intl: ^0.19.0
+
+  # CSV parsing for file preview
+  csv: ^6.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
